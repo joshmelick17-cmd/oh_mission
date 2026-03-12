@@ -1,2 +1,2 @@
 # oh_mission
-Jazz chord speller
+A terminal-based utility for musicians to quickly reference chord tones and transpositions for Concert, Bb, and Eb instruments.
