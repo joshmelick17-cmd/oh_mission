@@ -7,9 +7,13 @@ print(r"""
  //// ******. \\____/_/ /_/    //_/ /_/ /_/_/____/____/_/\____/_/ /_/ ,***** //// //// //// / |||| |||| ||
 //// ********************************************************************** //// //// //// // |||| |||| ||                                   
 /// **************************** Josh Melick ***************************** //// //// //// /// |||| |||| ||
+################################## 3/15/26 ###############################################################
 ################################## CS-161P ###############################################################
 ##########################################################################################################
 
+This application is designed for musicians to use to quickly see all notes in complex jazz chords. The 
+application also shows the notes transposed to Bb and Eb instruments to help with quick transposition
+between different instrument classes. 
 
       
       (C#/Db)(D#/Eb)   (F#/Gb)(G#/Ab)(A#/Bb)   (C#/Db)(D#/Eb)    (F#/Gb)(G#/Ab)(A#/Bb)   (C#/Db)(D#/Eb)
@@ -76,10 +80,12 @@ while seventh not in ["maj", "min"]:
         print(f" '{seventh}' isn't a valid choice. Try again.")
 
 # Extension
-print("\n*** Extensions (n=natural, #=sharp, b=flat) ***")
-ninth = input("9th? ").strip().lower()
-eleventh = input("11th? ").strip().lower()
-thirteenth = input("13th? ").strip().lower()
+print("\n*** Extensions  ***")
+ninth = input("9th (n=natural, #=sharp, b=flat) ").strip().lower()
+# There is no flat(b) eleven that would be a major third
+eleventh = input("11th (n=natural, #=sharp) ").strip().lower()
+# There is no sharp(#) thirteen that would be a flat(b) seven
+thirteenth = input("13th (n=natural, b=flat) ").strip().lower()
 
 # CHORD BUILDER
 interval_distance = [0]
@@ -124,10 +130,15 @@ if thirteenth == "n":
 elif thirteenth == "b":
     interval_distance += [20]
 
-
+# final_chords looks at circle_fifths dictionary and matches the root note with the input the user entered
+# then assigns to root_val to be displayed in the print statement
 def final_chords(root_val, intervals, label):
     final_chord = circle_fifths.get(root_val, circle_fifths['c'])
     print(f"{label} ({root_val.capitalize()}): ", end="")
+# this is how we display all the notes in the chord
+# we step through intervals using the modulus 12 to wrap around simulating the 12 semi-tones(half-steps)
+# found in an octave then prints using .capitalise() and the existing .lower() string methodS to correct
+# bad user input such as 'AB' or 'bB' to 'Ab' and 'Bb'
     for step in intervals:
         chord_notes = final_chord[step % 12]
         print(f"{chord_notes.capitalize()} ", end="")
@@ -145,9 +156,9 @@ else:
 # Bb
 bb_trans = (first_note + 2) % 12
 bb_root = chromatic_scale[bb_trans]
-final_chords(bb_root, interval_distance, "Bb")
+final_chords(bb_root, interval_distance, "Bb Instruments")
 
 # Eb
 eb_trans = (first_note + 9) % 12
 eb_root = chromatic_scale[eb_trans]
-final_chords(eb_root, interval_distance, "Eb")
+final_chords(eb_root, interval_distance, "Eb Instruments")
